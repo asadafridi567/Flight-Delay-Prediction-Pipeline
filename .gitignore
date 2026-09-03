@@ -1,0 +1,36 @@
+.env
+*.token
+profiles.yml
+
+# Data — never commit raw/processed data files
+*.csv
+*.zip
+*.dat
+data/
+ingestion/downloads/
+
+# Model artifacts (large binary files)
+*.pkl
+*.joblib
+mlruns/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# dbt
+dbt-project/target/
+dbt-project/dbt_packages/
+dbt-project/logs/
+
+# Airflow
+airflow/logs/
+airflow/airflow.db
+
+# OS/editor
+.DS_Store
+.vscode/
+EOF

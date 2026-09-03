@@ -1,0 +1,20 @@
+[project]
+name = "flight-delay-prediction-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Muhammad Asad", email = "128282207+asadafridi567@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "databricks-sql-connector>=4.4.0",
+    "dbt-databricks>=1.12.5",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+flight-delay-prediction-pipeline = "flight_delay_prediction_pipeline:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
