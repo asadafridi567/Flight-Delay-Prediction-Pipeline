@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: fct_flights
+    columns:
+      - name: origin_airport_sk
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: dest_airport_sk
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: air_time
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+      - name: distance
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+  - name: dim_airports
+    columns:
+      - name: airport_sk
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_carriers
+    columns:
+      - name: carrier_sk
+        tests:
+          - unique
+          - not_null
