@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: flights_raw
+      - name: airports_lookup
+      - name: carriers_lookup
