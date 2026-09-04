@@ -9,7 +9,13 @@ requires-python = ">=3.12"
 dependencies = [
     "databricks-sql-connector>=4.4.0",
     "dbt-databricks>=1.12.5",
+    "fastapi>=0.141.1",
+    "groq>=1.7.0",
+    "pandas>=3.0.5",
+    "pydantic>=2.12.5",
     "requests>=2.34.2",
+    "streamlit>=1.63.0",
+    "uvicorn>=0.52.4",
 ]
 
 [project.scripts]

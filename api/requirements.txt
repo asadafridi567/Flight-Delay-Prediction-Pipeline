@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+databricks-sql-connector
+groq
+pydantic
