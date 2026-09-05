@@ -1,0 +1,103 @@
+time="2026-09-05T15:46:43Z" level=warning msg="/workspaces/Flight-Delay-Prediction-Pipeline/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[[34m2026-09-05T15:46:45.975+0000[0m] {[34mdagbag.py:[0m545} INFO[0m - Filling up the DagBag from /opt/***/dags[0m
+[[34m2026-09-05T15:46:46.219+0000[0m] {[34mtaskinstance.py:[0m2076} INFO[0m - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: flight_delay_pipeline.dbt_snapshot __***_temporary_run_2026-09-05T15:46:46.194298+00:00__ [None]>[0m
+[[34m2026-09-05T15:46:46.225+0000[0m] {[34mtaskinstance.py:[0m2076} INFO[0m - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: flight_delay_pipeline.dbt_snapshot __***_temporary_run_2026-09-05T15:46:46.194298+00:00__ [None]>[0m
+[[34m2026-09-05T15:46:46.225+0000[0m] {[34mtaskinstance.py:[0m2306} INFO[0m - Starting attempt 1 of 4[0m
+[[34m2026-09-05T15:46:46.226+0000[0m] {[34mtaskinstance.py:[0m2388} WARNING[0m - cannot record queued_duration for task dbt_snapshot because previous state change time has not been saved[0m
+[[34m2026-09-05T15:46:46.229+0000[0m] {[34mtaskinstance.py:[0m2330} INFO[0m - Executing <Task(BashOperator): dbt_snapshot> on 2026-09-05 00:00:00+00:00[0m
+[[34m2026-09-05T15:46:46.513+0000[0m] {[34mtaskinstance.py:[0m2648} INFO[0m - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='flight-delay-pipeline' AIRFLOW_CTX_DAG_ID='flight_delay_pipeline' AIRFLOW_CTX_TASK_ID='dbt_snapshot' AIRFLOW_CTX_EXECUTION_DATE='2026-09-05T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='__***_temporary_run_2026-09-05T15:46:46.194298+00:00__'[0m
+[[34m2026-09-05T15:46:46.517+0000[0m] {[34mtaskinstance.py:[0m430} INFO[0m - ::endgroup::[0m
+[[34m2026-09-05T15:46:46.612+0000[0m] {[34msubprocess.py:[0m63} INFO[0m - Tmp dir root location: /tmp[0m
+[[34m2026-09-05T15:46:46.613+0000[0m] {[34msubprocess.py:[0m75} INFO[0m - Running command: ['/usr/bin/bash', '-c', 'cd /opt/***/dbt-project && dbt snapshot'][0m
+[[34m2026-09-05T15:46:46.649+0000[0m] {[34msubprocess.py:[0m86} INFO[0m - Output:[0m
+[[34m2026-09-05T15:46:50.277+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:50  Running with dbt=1.10.13[0m
+[[34m2026-09-05T15:46:53.485+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - /home/***/.local/lib/python3.11/site-packages/pydantic/_internal/_config.py:341: UserWarning: Valid config keys have changed in V2:[0m
+[[34m2026-09-05T15:46:53.485+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - * 'allow_population_by_field_name' has been renamed to 'populate_by_name'[0m
+[[34m2026-09-05T15:46:53.486+0000[0m] {[34msubprocess.py:[0m93} INFO[0m -   warnings.warn(message, UserWarning)[0m
+[[34m2026-09-05T15:46:53.946+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:53  Registered adapter: databricks=1.9.8[0m
+[[34m2026-09-05T15:46:55.172+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:55  Found 11 models, 2 snapshots, 8 data tests, 3 sources, 766 macros[0m
+[[34m2026-09-05T15:46:55.175+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:55[0m
+[[34m2026-09-05T15:46:55.176+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:55  Concurrency: 4 threads (target='dev')[0m
+[[34m2026-09-05T15:46:55.177+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:46:55[0m
+[[34m2026-09-05T15:48:02.119+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:02  1 of 2 START snapshot silver.airports_snapshot ................................. [RUN][0m
+[[34m2026-09-05T15:48:02.121+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:02  2 of 2 START snapshot silver.carriers_snapshot ................................. [RUN][0m
+[[34m2026-09-05T15:48:13.065+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:13  [31mUnhandled error while executing target/run/flight_delay_prediction/snapshots/carriers_snapshot.sql[0m[0m
+[[34m2026-09-05T15:48:13.066+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [Errno 21] Is a directory: '/opt/***/dbt-project/target/run/flight_delay_prediction/snapshots/carriers_snapshot.sql'[0m
+[[34m2026-09-05T15:48:13.081+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:13  2 of 2 ERROR snapshotting silver.carriers_snapshot ............................. [[31mERROR[0m in 10.96s][0m
+[[34m2026-09-05T15:48:13.134+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:13  [31mUnhandled error while executing target/run/flight_delay_prediction/snapshots/airports_snapshot.sql[0m[0m
+[[34m2026-09-05T15:48:13.134+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [Errno 21] Is a directory: '/opt/***/dbt-project/target/run/flight_delay_prediction/snapshots/airports_snapshot.sql'[0m
+[[34m2026-09-05T15:48:13.139+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:13  1 of 2 ERROR snapshotting silver.airports_snapshot ............................. [[31mERROR[0m in 11.02s][0m
+[[34m2026-09-05T15:48:15.101+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15[0m
+[[34m2026-09-05T15:48:15.105+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15  Finished running 2 snapshots in 0 hours 1 minutes and 19.92 seconds (79.92s).[0m
+[[34m2026-09-05T15:48:15.200+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15[0m
+[[34m2026-09-05T15:48:15.206+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15  [31mCompleted with 2 errors, 0 partial successes, and 0 warnings:[0m[0m
+[[34m2026-09-05T15:48:15.210+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15[0m
+[[34m2026-09-05T15:48:15.213+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15  [31mFailure in snapshot carriers_snapshot (snapshots/carriers_snapshot.sql)[0m[0m
+[[34m2026-09-05T15:48:15.214+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15    [Errno 21] Is a directory: '/opt/***/dbt-project/target/run/flight_delay_prediction/snapshots/carriers_snapshot.sql'[0m
+[[34m2026-09-05T15:48:15.217+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15[0m
+[[34m2026-09-05T15:48:15.217+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15  [31mFailure in snapshot airports_snapshot (snapshots/airports_snapshot.sql)[0m[0m
+[[34m2026-09-05T15:48:15.217+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15    [Errno 21] Is a directory: '/opt/***/dbt-project/target/run/flight_delay_prediction/snapshots/airports_snapshot.sql'[0m
+[[34m2026-09-05T15:48:15.217+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15[0m
+[[34m2026-09-05T15:48:15.217+0000[0m] {[34msubprocess.py:[0m93} INFO[0m - [0m15:48:15  Done. PASS=0 WARN=0 ERROR=2 SKIP=0 NO-OP=0 TOTAL=2[0m
+[[34m2026-09-05T15:48:16.115+0000[0m] {[34msubprocess.py:[0m97} INFO[0m - Command exited with return code 1[0m
+[[34m2026-09-05T15:48:16.117+0000[0m] {[34mtaskinstance.py:[0m441} INFO[0m - ::group::Post task execution logs[0m
+[[34m2026-09-05T15:48:16.118+0000[0m] {[34mtaskinstance.py:[0m2905} ERROR[0m - Task failed with exception[0m
+Traceback (most recent call last):
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/***/.local/lib/python3.11/site-packages/***/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/***/.local/lib/python3.11/site-packages/***/operators/bash.py", line 243, in execute
+    raise AirflowException(
+***.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[[34m2026-09-05T15:48:16.124+0000[0m] {[34mtaskinstance.py:[0m1206} INFO[0m - Marking task as UP_FOR_RETRY. dag_id=flight_delay_pipeline, task_id=dbt_snapshot, run_id=__***_temporary_run_2026-09-05T15:46:46.194298+00:00__, execution_date=20260905T000000, start_date=, end_date=20260905T154816[0m
+Traceback (most recent call last):
+  File "/home/airflow/.local/bin/airflow", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/__main__.py", line 58, in main
+    args.func(args)
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/cli.py", line 114, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 79, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/cli/commands/task_command.py", line 638, in task_test
+    ti.run(ignore_task_deps=True, ignore_ti_state=True, test_mode=True, raise_on_defer=True)
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 79, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 2789, in run
+    self._run_raw_task(
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 2479, in _run_raw_task
+    self._execute_task_with_callbacks(context, test_mode, session=session)
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 2676, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 2701, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.

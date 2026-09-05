@@ -3,3 +3,4 @@ uvicorn
 databricks-sql-connector
 groq
 pydantic
+python-dotenv
