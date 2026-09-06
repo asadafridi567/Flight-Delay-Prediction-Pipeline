@@ -1,0 +1,91 @@
+table dim_carriers
+	lineageTag: 36037b34-7ab6-4db6-a901-f54b0be2a6fb
+
+	column carrier_sk
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 7f951930-4c01-4ac6-8105-10bc2de46adb
+		summarizeBy: none
+		sourceColumn: carrier_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_code
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 290939f3-8991-457b-8f51-1abbffd9161b
+		summarizeBy: none
+		sourceColumn: carrier_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 4fae7b0a-1a38-4954-94a9-dbc7203c2975
+		summarizeBy: none
+		sourceColumn: carrier_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 02165764-e4da-4027-907f-08d999906bb1
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column active
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 3008ddb4-26ed-423f-be4f-8a9ea4a1220f
+		summarizeBy: none
+		sourceColumn: active
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_from
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 663f784f-ea38-4bcb-8e62-db620fbfa1ca
+		summarizeBy: none
+		sourceColumn: valid_from
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_to
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 9535b79f-f021-4976-b321-77f41f4b2a13
+		summarizeBy: none
+		sourceColumn: valid_to
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_current
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 892ee28f-608a-431c-ace6-c671c90db04b
+		summarizeBy: none
+		sourceColumn: is_current
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_carriers = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-b0acaeef-c80c.cloud.databricks.com", "/sql/1.0/warehouses/c8bd5a262b1d5f41", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    bts_flight_data_Database = Source{[Name="bts_flight_data",Kind="Database"]}[Data],
+				    gold_Schema = bts_flight_data_Database{[Name="gold",Kind="Schema"]}[Data],
+				    dim_carriers_Table = gold_Schema{[Name="dim_carriers",Kind="Table"]}[Data]
+				in
+				    dim_carriers_Table
+
+	annotation PBI_ResultType = Table
+

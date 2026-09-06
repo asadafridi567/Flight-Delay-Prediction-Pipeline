@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "flight_delay_powerbi_dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "607b64ba-d58c-4a5b-9bbb-7df73e5ea73d"
+  }
+}

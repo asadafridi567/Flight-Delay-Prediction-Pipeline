@@ -1,0 +1,21 @@
+relationship a55ab4b6-cc90-685c-eb25-b90b3fb2e186
+	fromColumn: fct_flights.carrier_sk
+	toColumn: dim_carriers.carrier_sk
+
+relationship 9fdd25c1-647b-b789-736d-4e7d443b2fb4
+	fromColumn: fct_flights.origin_airport_sk
+	toColumn: dim_airports.airport_sk
+
+relationship a5953295-153f-dd4f-5d6c-4f633f6785fc
+	isActive: false
+	fromColumn: fct_flights.dest_airport_sk
+	toColumn: dim_airports.airport_sk
+
+relationship 68369dc3-69af-30ca-7596-f0716feff58e
+	fromColumn: agg_carrier_monthly_performance.carrier_code
+	toColumn: dim_carriers.carrier_code
+
+relationship 91495bdc-4617-a8a8-8333-b84cc1b0bbb8
+	fromColumn: agg_route_delay_trends.origin
+	toColumn: dim_airports.airport_code
+

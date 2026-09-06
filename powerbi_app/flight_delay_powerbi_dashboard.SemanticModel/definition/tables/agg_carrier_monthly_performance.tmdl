@@ -1,0 +1,97 @@
+table agg_carrier_monthly_performance
+	lineageTag: 32ac39ef-a341-4262-a4e2-41a3163901b5
+
+	column carrier_code
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: f0fb0996-013e-4365-ab04-8fbf7f5d4189
+		summarizeBy: none
+		sourceColumn: carrier_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: c94a2e14-2d93-4e5d-a9bc-0c64f7138ec6
+		summarizeBy: none
+		sourceColumn: carrier_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2d6e9d9a-7ba6-45f1-8ee1-0c96eb3f6c34
+		summarizeBy: sum
+		sourceColumn: flight_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: cc1da48c-9966-420f-b94a-a1ff866d3576
+		summarizeBy: sum
+		sourceColumn: flight_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_flights
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6b681257-d19f-429c-91df-0b87d95807e0
+		summarizeBy: sum
+		sourceColumn: total_flights
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_dep_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: a56e87be-459c-4d92-9f80-5804127ab4cd
+		summarizeBy: sum
+		sourceColumn: avg_dep_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_arr_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 797573b5-e7d2-402f-926f-98724da70858
+		summarizeBy: sum
+		sourceColumn: avg_arr_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_delayed
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 24fc7582-0eed-430a-9252-f114fc6e8766
+		summarizeBy: sum
+		sourceColumn: pct_delayed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition agg_carrier_monthly_performance = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-b0acaeef-c80c.cloud.databricks.com", "/sql/1.0/warehouses/c8bd5a262b1d5f41", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    bts_flight_data_Database = Source{[Name="bts_flight_data",Kind="Database"]}[Data],
+				    gold_Schema = bts_flight_data_Database{[Name="gold",Kind="Schema"]}[Data],
+				    agg_carrier_monthly_performance_Table = gold_Schema{[Name="agg_carrier_monthly_performance",Kind="Table"]}[Data]
+				in
+				    agg_carrier_monthly_performance_Table
+
+	annotation PBI_ResultType = Table
+
