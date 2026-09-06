@@ -1,0 +1,86 @@
+table agg_route_delay_trends
+	lineageTag: 8d2454ce-c88c-48fd-b88d-68c47f19222d
+
+	column origin
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 033f72de-9a74-4125-b850-6e8d620a4c09
+		summarizeBy: none
+		sourceColumn: origin
+
+		annotation SummarizationSetBy = Automatic
+
+	column dest
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: e756e33a-2ee2-44a5-aa00-dbd0e03ac7f1
+		summarizeBy: none
+		sourceColumn: dest
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f08f24cb-6369-4734-b8d4-08004a8d303d
+		summarizeBy: sum
+		sourceColumn: flight_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b6acba26-e0e8-49a3-bf12-d06582a9ec01
+		summarizeBy: sum
+		sourceColumn: flight_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_flights
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 6ee8a7ad-ab40-413f-820c-fae87ab46385
+		summarizeBy: sum
+		sourceColumn: total_flights
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_arr_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: e2ba3d38-1dc8-4f91-be23-81a65a91df92
+		summarizeBy: sum
+		sourceColumn: avg_arr_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_congestion_score
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 39ca7c66-d48c-461c-959e-c2c2f63891d4
+		summarizeBy: sum
+		sourceColumn: avg_congestion_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition agg_route_delay_trends = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-b0acaeef-c80c.cloud.databricks.com", "/sql/1.0/warehouses/c8bd5a262b1d5f41", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    bts_flight_data_Database = Source{[Name="bts_flight_data",Kind="Database"]}[Data],
+				    gold_Schema = bts_flight_data_Database{[Name="gold",Kind="Schema"]}[Data],
+				    agg_route_delay_trends_Table = gold_Schema{[Name="agg_route_delay_trends",Kind="Table"]}[Data]
+				in
+				    agg_route_delay_trends_Table
+
+	annotation PBI_ResultType = Table
+

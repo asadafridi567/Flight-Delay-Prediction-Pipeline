@@ -1,0 +1,310 @@
+table fct_flights
+	lineageTag: 649347d9-bf03-473a-adc8-cd77f12c7938
+
+	measure 'Total Flights' = COUNTROWS(fct_flights)
+		formatString: 0
+		lineageTag: ca62bb49-2a88-47ab-81f4-10f2cfcae660
+
+	measure '% Delayed' =
+			
+			DIVIDE(
+			    CALCULATE(COUNTROWS(fct_flights), fct_flights[arr_delay_15plus] = TRUE),
+			    [Total Flights]
+			)
+		lineageTag: 218e5ac1-f50e-42ed-a8b0-c94acab340a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Arrival Delay' = AVERAGE(fct_flights[arr_delay])
+		lineageTag: 05c61bdb-4fe4-4e25-a4c9-27050844a45b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Flights to Destination' =
+			
+			CALCULATE(
+			    COUNTROWS(fct_flights),
+			    USERELATIONSHIP(fct_flights[dest_airport_sk], dim_airports[airport_sk])
+			)
+		formatString: 0
+		lineageTag: c139f209-d7cd-47cb-b21b-4e490be219b1
+
+	column flight_year
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a5a91a74-ca9b-45fe-8395-07e52d8130d0
+		summarizeBy: sum
+		sourceColumn: flight_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column flight_month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e90fbc79-a241-43cc-9904-b31a1ea007e7
+		summarizeBy: sum
+		sourceColumn: flight_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 65515fd3-ef1c-4a92-aef0-36d6ee873196
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3703bba4-5d8a-43dc-b16a-edc093e1c07a
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column fl_date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 196a3674-286d-47a7-8352-9173c56e8b0f
+		summarizeBy: none
+		sourceColumn: fl_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column flight_number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4195c7d7-2b31-44e4-9480-c2995e71c8b6
+		summarizeBy: sum
+		sourceColumn: flight_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column tail_number
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: e252e75a-2c16-4d9f-9056-4301fb7a5997
+		summarizeBy: none
+		sourceColumn: tail_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_sk
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 38527b45-78da-48e9-b0c6-b4aacbd551fc
+		summarizeBy: none
+		sourceColumn: carrier_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_airport_sk
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 73826375-1528-469c-a8fd-792ed358aa1d
+		summarizeBy: none
+		sourceColumn: origin_airport_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dest_airport_sk
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 506dcdc5-d7a7-42fc-b07f-80d167efe946
+		summarizeBy: none
+		sourceColumn: dest_airport_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column crs_dep_time
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b77197d7-3066-43f0-b9da-a05ba97443b5
+		summarizeBy: sum
+		sourceColumn: crs_dep_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column dep_time
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8fcc2f61-203e-4802-be76-86db2305a98d
+		summarizeBy: sum
+		sourceColumn: dep_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column dep_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 267893f0-2c8c-430b-b657-a3fb631f1174
+		summarizeBy: sum
+		sourceColumn: dep_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column crs_arr_time
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f265a73a-e651-4e2b-b625-3608d1e6d0da
+		summarizeBy: sum
+		sourceColumn: crs_arr_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column arr_time
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5ba6c789-b28d-4a7e-b081-affff4ba6121
+		summarizeBy: sum
+		sourceColumn: arr_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column arr_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: e5d5b14e-0b57-4ce1-916a-7b67116d4450
+		summarizeBy: sum
+		sourceColumn: arr_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column air_time
+		dataType: double
+		sourceProviderType: double
+		lineageTag: e5626211-7511-4745-9951-b918bb0b8e5c
+		summarizeBy: sum
+		sourceColumn: air_time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column distance
+		dataType: double
+		sourceProviderType: double
+		lineageTag: de0c0015-1489-4a2e-9093-5db7cba23c02
+		summarizeBy: sum
+		sourceColumn: distance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prev_flight_arr_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: d208adc1-35ee-4d22-9469-6c84fd7c7762
+		summarizeBy: sum
+		sourceColumn: prev_flight_arr_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column origin_hourly_avg_delay_30d
+		dataType: double
+		sourceProviderType: double
+		lineageTag: f1fe881b-8889-4e6b-9d82-c2f6b25a7623
+		summarizeBy: sum
+		sourceColumn: origin_hourly_avg_delay_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column origin_hourly_flight_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b17cbda5-4628-4688-bfd0-0f5fc6fdb37f
+		summarizeBy: sum
+		sourceColumn: origin_hourly_flight_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_90d_avg_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 0872e0c2-aa6a-43ab-90f6-a957b32bb6ed
+		summarizeBy: sum
+		sourceColumn: carrier_90d_avg_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column route_90d_avg_delay
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 47fb4d3e-5ebd-4870-8e40-b748f481041f
+		summarizeBy: sum
+		sourceColumn: route_90d_avg_delay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: b3d31a8a-a254-4cec-b9c7-e63c01e29aaf
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_holiday_season
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: d1240e3e-25b8-42af-8892-01b0a09add82
+		summarizeBy: none
+		sourceColumn: is_holiday_season
+
+		annotation SummarizationSetBy = Automatic
+
+	column arr_delay_15plus
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 43c327e1-93a6-4acf-9ecb-41e1bd9fcd4e
+		summarizeBy: none
+		sourceColumn: arr_delay_15plus
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_flights = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-b0acaeef-c80c.cloud.databricks.com", "/sql/1.0/warehouses/c8bd5a262b1d5f41", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    bts_flight_data_Database = Source{[Name="bts_flight_data",Kind="Database"]}[Data],
+				    gold_Schema = bts_flight_data_Database{[Name="gold",Kind="Schema"]}[Data],
+				    fct_flights_Table = gold_Schema{[Name="fct_flights",Kind="Table"]}[Data]
+				in
+				    fct_flights_Table
+
+	annotation PBI_ResultType = Table
+

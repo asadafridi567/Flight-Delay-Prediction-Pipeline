@@ -1,6 +1,6 @@
 # Flight Delay Prediction Pipeline
 
-A production-style data engineering project: BTS flight data ingested into Databricks, transformed through a medallion architecture with dbt, orchestrated with Airflow, and exposed through a natural-language AI agent for querying the warehouse — all containerized with Docker.
+A production-style data engineering project: BTS flight data ingested into Databricks, transformed through a medallion architecture with dbt, orchestrated with Airflow, and exposed through both a natural-language AI agent and a Power BI dashboard — all containerized with Docker.
 
 ---
 
@@ -8,7 +8,7 @@ A production-style data engineering project: BTS flight data ingested into Datab
 
 **Dataset:** BTS On-Time Performance data (2025 onward, ~10.5M+ flight records) + OpenFlights airport/airline reference data.
 
-**Goal:** Build a genuinely production-minded pipeline — not just a one-off notebook — covering ingestion, dimensional modeling, orchestration, testing, and a natural-language interface to the warehouse.
+**Goal:** Build a genuinely production-minded pipeline — not just a one-off notebook — covering ingestion, dimensional modeling, orchestration, testing, and two very different downstream consumers of the same warehouse: a natural-language agent and a traditional BI dashboard.
 
 **Why this dataset:** chosen specifically to avoid the common Kaggle/tutorial datasets (NYC taxi, Walmart, Netflix). BTS flight data is large, requires genuine transformation work (heavy SQL, window functions, dimensional modeling), and supports a real, explainable use case.
 
@@ -23,7 +23,8 @@ A production-style data engineering project: BTS flight data ingested into Datab
 | Orchestration | Apache Airflow (Dockerized) |
 | Containerization | Docker / Docker Compose |
 | AI Agent | FastAPI + Groq (LLM) + Databricks SQL Connector |
-| Frontend | Streamlit |
+| Frontend (Agent) | Streamlit |
+| BI / Dashboard | Power BI (DirectQuery against Databricks) |
 | Dependency management | uv |
 | Version control | Git / GitHub |
 
@@ -53,10 +54,10 @@ GOLD (marts — star schema + aggregates)
    agg_carrier_monthly_performance, agg_route_delay_trends,
    ml_training_features
         │
-        ├──────────────────────────────┐
-        ▼                              ▼
-  AI Agent (FastAPI)              Analytics / BI
-  text → SQL → Databricks              (dbt docs, dashboards)
+        ├──────────────────────────┬──────────────────────┐
+        ▼                          ▼                      ▼
+  AI Agent (FastAPI)          Power BI (DirectQuery)   dbt Docs
+  text → SQL → Databricks     Dashboard + data model   Lineage / catalog
         │
         ▼
   Streamlit Chat UI
@@ -70,13 +71,13 @@ Orchestration: Airflow (Dockerized) triggers Databricks Jobs +
 ## Why the project is built this way
 
 ### Medallion architecture (Bronze → Silver → Gold)
-Raw BTS data has ~110 columns, inconsistent types, and no reference-data joins. Bronze preserves raw fidelity; Silver cleans and validates; Gold shapes data for direct business/ML/agent consumption. Each layer has a distinct, defensible job.
+Raw BTS data has ~110 columns, inconsistent types, and no reference-data joins. Bronze preserves raw fidelity; Silver cleans and validates; Gold shapes data for direct business/ML/agent/BI consumption. Each layer has a distinct, defensible job.
 
 ### dbt over raw SQL scripts
 dbt adds testing, documentation, lineage, and version control discipline to SQL transformations — the difference between "a query that works" and "a transformation you can trust in production."
 
 ### Star schema (fact/dimension) instead of one flat table
-`fct_flights` stores surrogate keys, not repeated airport/carrier text — avoiding duplication at scale and keeping a single source of truth per dimension. A separate `ml_training_features` flat mart exists on top of this star schema purely for the model/agent's convenience, without compromising the canonical model.
+`fct_flights` stores surrogate keys, not repeated airport/carrier text — avoiding duplication at scale and keeping a single source of truth per dimension. This same star schema is reused directly as Power BI's data model (see below), not rebuilt separately. A separate `ml_training_features` flat mart exists on top of it purely for the agent's convenience, without compromising the canonical model.
 
 ### SCD2 snapshots for dimensions
 Airport/carrier reference data is snapshotted with `dbt snapshot`, giving every dimension row a valid time range (`valid_from`/`valid_to`) rather than only ever reflecting "now." **Honest scoping note:** since this project loaded a single historical bulk year rather than running incrementally from day one, `fct_flights` joins to the *current* dimension version rather than a strict point-in-time match — the point-in-time join logic is fully built and would activate correctly once the pipeline runs repeatedly over time in production.
@@ -89,6 +90,9 @@ Airport/carrier lookup data doesn't share the flight data's monthly cadence, so 
 
 ### Text-to-SQL AI agent instead of a trained ML model
 The project pivoted from training a delay-prediction model to a Groq-powered natural-language agent that generates and executes SQL against the Gold layer live. This avoids needing to retrain/redeploy a model — the agent automatically reflects fresh data on its very next query once a pipeline run completes.
+
+### Power BI on DirectQuery, not Import
+The dashboard connects to the Databricks SQL Warehouse in **DirectQuery** mode rather than importing/caching data into Power BI. Every visual queries Gold tables live — no separate refresh schedule to manage, and the dashboard reflects new data the moment a pipeline run completes, the same way the AI agent does. This also keeps the `.pbix` file small enough to version control comfortably.
 
 ### Airflow orchestration
 A single DAG chains `ingest_flights → dbt_snapshot → dbt_run → dbt_test`, triggering the existing Databricks notebook (registered as a Job) rather than duplicating ingestion logic inside Airflow itself. Retries and a failure-alert callback are configured at the DAG level; `dbt test` failing (error-severity only — warnings don't block) automatically fails the pipeline run.
@@ -122,6 +126,11 @@ flight-delay-pipeline/
 │   └── requirements.txt
 ├── streamlit_app/
 │   └── app.py
+├── powerbi/
+│   ├── FlightDelayDashboard.pbip
+│   ├── FlightDelayDashboard.Report/
+│   ├── FlightDelayDashboard.SemanticModel/
+│   └── FlightDelayDashboard.pbix
 ├── docker-compose.yml
 ├── .env.example
 ├── .gitignore
@@ -130,7 +139,9 @@ flight-delay-pipeline/
     ├── databricks-job-runs.png
     ├── dbt_docs.png
     ├── dbt_lineage_graph.png
-    └── streamlit_app.png
+    ├── streamlit_app.png
+    ├── powerbi_dashboard.png
+    └── Powerbi_Models.png
 ```
 
 ---
@@ -142,6 +153,7 @@ flight-delay-pipeline/
 3. Register `flight_data_ingestion` as a Databricks Job; note its Job ID.
 4. In Airflow: add a `databricks_default` connection (host + token) and an `ingest_flights_job_id` Variable.
 5. Populate `.env` (see `.env.example`) with `DATABRICKS_HOST`, `DATABRICKS_HTTP_PATH`, `DATABRICKS_TOKEN`, `GROQ_API_KEY`.
+6. Open `powerbi/FlightDelayDashboard.pbip` in Power BI Desktop and authenticate to the same Databricks SQL Warehouse when prompted.
 
 ## Running the Pipeline
 
@@ -154,6 +166,7 @@ docker compose up -d
 - Airflow UI: `http://localhost:8080` (`admin`/`admin`)
 - FastAPI: `http://localhost:8000/health`
 - Streamlit: run separately with `uv run streamlit run streamlit_app/app.py`
+- Power BI: open `powerbi/FlightDelayDashboard.pbip` directly in Power BI Desktop
 
 Unpause and trigger the DAG:
 ```bash
@@ -190,6 +203,16 @@ A natural-language question translated into generated SQL, executed live against
 
 ![Streamlit app](imgs/streamlit_app.png)
 
+### Power BI Data Model
+Mirrors the dbt star schema directly: `fct_flights` at the center, joined to `dim_airports` and `dim_carriers`, with `agg_carrier_monthly_performance` and `agg_route_delay_trends` connected as pre-aggregated marts for fast dashboard queries — built on DirectQuery, no imported data cache.
+
+![Power BI data model](imgs/Powerbi_Models.png)
+
+### Power BI Dashboard
+KPI cards (total flights, average arrival delay, % delayed), a carrier delay comparison chart, a monthly delay trend line, a top-delayed-routes table, and interactive month/carrier slicers — styled with a custom dark theme.
+
+![Power BI dashboard](imgs/powerbi_dashboard.png)
+
 ---
 
 ## Known Limitations / Honest Trade-offs
@@ -197,4 +220,5 @@ A natural-language question translated into generated SQL, executed live against
 - **SCD2 point-in-time joins**: fully implemented, but `fct_flights` currently joins to the *current* dimension version rather than a strict historical match, since this project's one-time bulk load predates the snapshot's capture timestamp. This is a documented, deliberate scoping decision — the mechanism is correct and would activate properly under continuous production operation.
 - **~0.04% of flights have no matching airport dimension** (e.g., `XWA`, `EAR` — small regional airports not present in the OpenFlights reference dataset). Surfaced as a `warn`-severity dbt test rather than a hard failure, since it's a known, small, explainable gap in a third-party reference dataset.
 - **No trained ML model** — the project intentionally uses a live text-to-SQL agent instead of a trained/retrained model, trading a retraining step for always-current answers.
+- **`agg_route_delay_trends` is not carrier-filterable** — the route-level mart doesn't carry carrier information, so the Power BI carrier slicer correctly filters the KPI cards, carrier chart, and trend line, but has no effect on the routes table by design.
 - **Local/dev orchestration** — Airflow runs with `LocalExecutor` via Docker Compose, appropriate for this project's scale. Production at larger scale would move to `CeleryExecutor`/`KubernetesExecutor` and managed infrastructure (MWAA, Cloud Composer, or a Kubernetes cluster).

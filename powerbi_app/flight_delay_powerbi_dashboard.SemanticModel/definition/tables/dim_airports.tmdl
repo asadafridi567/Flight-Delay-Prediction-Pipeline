@@ -1,0 +1,131 @@
+table dim_airports
+	lineageTag: eae5e4ef-4310-44f7-b21c-16e53372a1fb
+
+	column airport_sk
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 89b96c93-b5ac-4a78-a6dd-e5ab8b140292
+		summarizeBy: none
+		sourceColumn: airport_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column airport_code
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: e0f6cee6-37b2-454f-a886-df038a4f8d4b
+		summarizeBy: none
+		sourceColumn: airport_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column airport_name
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 978e69ad-2b04-446c-830e-0b69130918ff
+		summarizeBy: none
+		sourceColumn: airport_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: a96aa14f-d1d9-4ea5-b885-12009012d519
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: af8272cd-2e75-40d2-8a56-bc7bc3415ef6
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		sourceProviderType: double
+		lineageTag: 6741711f-21b2-4a8b-a155-243bba17bae7
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		sourceProviderType: double
+		lineageTag: c7ed6892-79d0-4703-afdf-45d09d81aba3
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column timezone
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: 7e904d12-926e-4d66-a12e-9975d136c451
+		summarizeBy: none
+		sourceColumn: timezone
+
+		annotation SummarizationSetBy = Automatic
+
+	column tz_database_timezone
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: f8cba8a5-2411-478f-9b1c-ba9fb71333fe
+		summarizeBy: none
+		sourceColumn: tz_database_timezone
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_from
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: c74d85e1-3f42-4433-9a94-5f8890a65d12
+		summarizeBy: none
+		sourceColumn: valid_from
+
+		annotation SummarizationSetBy = Automatic
+
+	column valid_to
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: ac5e5afb-db94-4a65-b4fe-45df123a2023
+		summarizeBy: none
+		sourceColumn: valid_to
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_current
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: c1084f03-c93c-4cf4-aa01-e9c4936aa21a
+		summarizeBy: none
+		sourceColumn: is_current
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_airports = m
+		mode: directQuery
+		source =
+				let
+				    Source = DatabricksMultiCloud.Catalogs("dbc-b0acaeef-c80c.cloud.databricks.com", "/sql/1.0/warehouses/c8bd5a262b1d5f41", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+				    bts_flight_data_Database = Source{[Name="bts_flight_data",Kind="Database"]}[Data],
+				    gold_Schema = bts_flight_data_Database{[Name="gold",Kind="Schema"]}[Data],
+				    dim_airports_Table = gold_Schema{[Name="dim_airports",Kind="Table"]}[Data]
+				in
+				    dim_airports_Table
+
+	annotation PBI_ResultType = Table
+

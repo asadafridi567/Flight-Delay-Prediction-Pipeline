@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 50
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 119.70270270270271,
+            "y": 368.2162162162162
+          },
+          "nodeIndex": "agg_carrier_monthly_performance",
+          "nodeLineageTag": "32ac39ef-a341-4262-a4e2-41a3163901b5",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 986,
+            "y": 397
+          },
+          "nodeIndex": "agg_route_delay_trends",
+          "nodeLineageTag": "8d2454ce-c88c-48fd-b88d-68c47f19222d",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 986,
+            "y": 25
+          },
+          "nodeIndex": "dim_airports",
+          "nodeLineageTag": "eae5e4ef-4310-44f7-b21c-16e53372a1fb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 117,
+            "y": 38
+          },
+          "nodeIndex": "dim_carriers",
+          "nodeLineageTag": "36037b34-7ab6-4db6-a901-f54b0be2a6fb",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 547,
+            "y": 24
+          },
+          "nodeIndex": "fct_flights",
+          "nodeLineageTag": "649347d9-bf03-473a-adc8-cd77f12c7938",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 74,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,23 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-PK
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fct_flights","dim_carriers","dim_airports","agg_route_delay_trends","agg_carrier_monthly_performance"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fct_flights
+ref table dim_carriers
+ref table dim_airports
+ref table agg_route_delay_trends
+ref table agg_carrier_monthly_performance
+
+ref cultureInfo en-US
+
